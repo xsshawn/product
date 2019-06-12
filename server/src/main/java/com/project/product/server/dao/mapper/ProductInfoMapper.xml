@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.product.server.dao.ProductInfoMapper">
+    <select id="queryProductInfoById" parameterType="java.lang.String"
+            resultType="com.project.product.server.entity.ProductInfo">
+        select
+        product_id,
+        product_name,
+        product_price,
+        product_stock,
+        product_description,
+        product_icon,
+        category_type,
+        date_format(create_time, '%Y-%m-%d %T') create_time,
+        date_format(update_time, '%Y-%m-%d %T') update_time,
+        create_user,
+        update_user
+        from product_info
+        <where>
+            <if test="productId != null and productId != ''">
+                and product_id=#{productId}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryProductInfoList" parameterType="java.util.Map"
+            resultType="com.project.product.server.entity.ProductInfo">
+        select
+        product_id,
+        product_name,
+        product_price,
+        product_stock,
+        product_description,
+        product_icon,
+        category_type,
+        date_format(create_time, '%Y-%m-%d %T') create_time,
+        date_format(update_time, '%Y-%m-%d %T') update_time,
+        create_user,
+        update_user
+        from product_info
+        <where>
+            <if test="productId != null and productId != ''">
+                and product_id in
+                <foreach item="item" index="index" collection="productId.split(',')" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

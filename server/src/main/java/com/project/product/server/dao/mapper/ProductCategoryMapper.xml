@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.product.server.dao.ProductCategoryMapper">
+    <select id="queryProductCategoryById" parameterType="java.lang.String"
+            resultType="com.project.product.server.entity.ProductCategory">
+        SELECT
+        category_id,
+        category_name,
+        category_type,
+        DATE_FORMAT(create_time, '%Y-%m-%d %T') AS create_time,
+        DATE_FORMAT(update_time, '%Y-%m-%d %T') AS update_time,
+        create_user,
+        update_user
+        FROM product_category
+        <where>
+            <if test="categoryId != null and categoryId != ''">
+                and category_id=#{categoryId}
+            </if>
+        </where>
+    </select>
+</mapper>
